@@ -1,0 +1,9 @@
+<h1><%=  @movie.title  %></h1>
+片长：<p><%=  @movie.movie_length  %></p>
+导演：<p><%=  @movie.director %></p>
+评分：<p><%= @movie.rating  %></p>
+剧情简介：
+    <p><%= @movie.description  %></p>
+<%= link_to("back", movies_path)  %>
+<%= link_to("Edit", edit_movie_path(@movie) ) %>
+<%= link_to("Destroy", movie_path(@movie), method: :delete, data: { confirm: "Are  you  sure?" } ) %>

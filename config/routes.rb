@@ -4,5 +4,9 @@ Rails.application.routes.draw do
 
   root  "movies#index"
 
-  resources :movies
+  namespace  :admin  do
+    resources :movies
+  end
+
+  resources  :movies
 end

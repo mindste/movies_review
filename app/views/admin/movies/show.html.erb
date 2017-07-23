@@ -1,0 +1,27 @@
+<div  class="col-md-4">
+  <h3><%=  @movie.title  %></h3>
+  <p>
+    <%  if  @movie.image.present?  %>
+      <%=  image_tag  @movie.image.url(:medium) %>
+    <%  else  %>
+      <%=  image_tag  @movie.image.url(:thumb)  %>
+    <%  end  %>
+  </p>
+
+</div>
+
+<br><br><br>
+<div  class="col-md-6">
+<p><%=  @movie.movie_length  %></p>
+<p><%=  @movie.director %></p>
+<p><%= @movie.rating  %></p>
+</div>
+
+<br>
+<div  class="col-md-9">
+  剧情简介：
+      <p><%= render_movie_description(@movie)  %></p>
+  <%= link_to("back", admin_movies_path)  %>
+  <%= link_to("Edit", edit_admin_movie_path(@movie) ) %>
+  <%= link_to("Destroy", admin_movie_path(@movie), method: :delete, data: { confirm: "Are  you  sure?" } ) %>
+</div>

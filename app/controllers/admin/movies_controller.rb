@@ -1,4 +1,4 @@
-class MoviesController < ApplicationController
+class Admin::MoviesController < ApplicationController
   before_action  :set_movie, only: [:show, :edit, :update, :destroy]
   before_action  :authenticate_user!, except: [:show, :index]
 
@@ -15,7 +15,7 @@ class MoviesController < ApplicationController
     @movie.user  =  current_user
 
     if  @movie.save
-      redirect_to  @movie
+      redirect_to  admin_movies_path
     else
       render  :new
     end
@@ -30,7 +30,7 @@ class MoviesController < ApplicationController
 
   def  update
     if  @movie.update(movie_params)
-      redirect_to  @movie
+      redirect_to  admin_movies_path
     else
       render  :edit
     end
@@ -38,7 +38,7 @@ class MoviesController < ApplicationController
 
   def  destroy
     @movie.destroy
-    redirect_to  movies_path
+    redirect_to  admin_movies_path
   end
 
   private
@@ -50,5 +50,4 @@ class MoviesController < ApplicationController
   def  movie_params
     params.require(:movie).permit(:title, :description, :movie_length, :director, :rating, :image)
   end
-
 end

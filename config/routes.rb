@@ -8,5 +8,8 @@ Rails.application.routes.draw do
     resources :movies
   end
 
-  resources  :movies
+  resources  :movies  do
+    resources  :reviews
+  end
+  
 end

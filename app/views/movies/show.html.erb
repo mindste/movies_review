@@ -5,7 +5,7 @@
       <%  if  @movie.image.present?  %>
         <%=  image_tag  @movie.image.url(:medium) %>
       <%  else  %>
-        <%=  image_tag  @movie.image.url(:thumb)  %>
+        <%=  image_tag  @movie.image.default_url(:"/images/:style/missing.png" )  %>
       <%  end  %>
     </p>
   </div>
@@ -27,5 +27,27 @@
 <div  class="col-md-9">
   剧情简介：
       <p><%= render_movie_description(@movie)  %></p>
-  <%= link_to("back", admin_movies_path)  %>
+
+      <!--－－ 新增评论 －－-->
+      <hr>
+      <%= simple_form_for  [@movie, @movie.reviews.build]  do  |f|  %>
+        <%=  f.input  :content,  class: "form-control"  %>
+        <%=  f.button  :submit,  disable_with: "Submiting...", class: "btn  btn-primary"  %>
+      <% end  %>
+
+      <!--－－评论展示区----->
+      <hr>
+      <%  if   @reviews.blank? %>
+      <h3>还没有人评论，抢个沙发吧！</h3>
+      <%=  link_to("Write a  review", new_movie_review_path(@movie), class: "btn btn-primary") %>
+      <%  else  %>
+        <%  @reviews.each  do |review|  %>
+          <%=  review.user.email  %>
+          <%=  review.created_at.strftime("%Y/%m/%d, %I:%M  %P")  %><br>
+          <%=  review.content  %>
+          <hr>
+        <%  end  %>
+      <%  end  %>
+
+  <%= link_to("back", movies_path)  %>
 </div>

@@ -1,0 +1,4 @@
+<%=  simple_form_for  [@movie, @review]  do  |f|   %>
+  <%=  f.input  :content,  class: "form-control" %>
+  <%=  f.button  :submit,  disable_with: "Submiting...", class: "btn  btn-primary"  %>
+<%  end  %>

@@ -1,6 +1,7 @@
 class MoviesController < ApplicationController
   before_action  :set_movie, only: [:show, :edit, :update, :destroy]
   before_action  :authenticate_user!, except: [:show, :index]
+  before_action  :require_is_admin
 
   def   index
     @movies  =  Movie.all.recent
@@ -23,6 +24,7 @@ class MoviesController < ApplicationController
   end
 
   def  show
+    @reviews  =   @movie.reviews.recent
   end
 
   def  edit

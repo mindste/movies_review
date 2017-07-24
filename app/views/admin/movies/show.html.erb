@@ -10,11 +10,15 @@
 
 </div>
 
-<br><br><br>
 <div  class="col-md-6">
-<p><%=  @movie.movie_length  %></p>
-<p><%=  @movie.director %></p>
-<p><%= @movie.rating  %></p>
+  <strong>片长：</strong>
+  <%=  @movie.movie_length  %>
+  <br>
+  <strong>导演：</strong>
+  <%=  @movie.director %>
+  <br>
+  <strong>电影评分：</strong>
+  <%= @movie.rating  %>
 </div>
 
 <br>

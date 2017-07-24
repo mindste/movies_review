@@ -1,13 +1,20 @@
-<div  class="col-md-6  col-md-offset-3">
+<div  class="pull-right">
   <%=  link_to("New  movie", new_admin_movie_path, class: "btn  btn-primary")%>
 </div>
-<div  class="col-md-6">
-  <%  @movies.each  do  |movie| %>
-    <%=  link_to   admin_movie_path(movie)  do %>
-       <%= image_tag  movie.image.url(:thumb)  %>
-    <%  end %>
 
-    <p> <%=  link_to  movie.title, admin_movie_path(movie) %></p>
-    <%=  link_to("buy", "#", class: "btn   btn-primary") %><br>
+<div  class="row">
+  <%  @movies.each  do  |movie| %>
+    <div  class="col-sm-6  col-md-3">
+      <div  class="thumbnail">
+      <!--<%=  link_to   movie_path(movie)  do  %>
+        <%= image_tag  movie.image.url(:thumb)  %>
+      <%  end  %>
+      -->
+        <%=  link_to   (image_tag  movie.image.url(:thumb),  class: 'image'), admin_movie_path(movie)  %>
+      </div>
+    </div>
+
+
   <% end %>
+
 </div>

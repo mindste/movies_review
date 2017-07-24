@@ -1,7 +1,31 @@
-<h1><%=  @movie.title  %></h1>
-片长：<p><%=  @movie.movie_length  %></p>
-导演：<p><%=  @movie.director %></p>
-评分：<p><%= @movie.rating  %></p>
-剧情简介：
-    <p><%= render_movie_description(@movie) %></p>
-<%= link_to("back", movies_path)  %>
+<div  class="row">
+  <div  class="col-md-4">
+    <h3><%=  @movie.title  %></h3>
+    <p>
+      <%  if  @movie.image.present?  %>
+        <%=  image_tag  @movie.image.url(:medium) %>
+      <%  else  %>
+        <%=  image_tag  @movie.image.url(:thumb)  %>
+      <%  end  %>
+    </p>
+  </div>
+
+  <div  class="col-md-6">
+    <strong>片长：</strong>
+    <%=  @movie.movie_length  %>
+    <br>
+    <strong>导演：</strong>
+    <%=  @movie.director %>
+    <br>
+    <strong>电影评分：</strong>
+    <%= @movie.rating  %>
+  </div>
+
+</div>
+
+<br>
+<div  class="col-md-9">
+  剧情简介：
+      <p><%= render_movie_description(@movie)  %></p>
+  <%= link_to("back", admin_movies_path)  %>
+</div>

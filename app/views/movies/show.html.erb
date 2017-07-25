@@ -18,7 +18,9 @@
     <%=  @movie.director %>
     <br>
     <strong>电影评分：</strong>
-    <%= @movie.rating  %>
+    <%= @movie.rating %><br>
+    <div class="star-rating"  data-score= <%= @avg_review %> ></div>
+    <em><%=  "#{@reviews.length}人评价" %></em>
   </div>
 
 </div>
@@ -31,6 +33,7 @@
       <!--－－ 新增评论 －－-->
       <hr>
       <%= simple_form_for  [@movie, @movie.reviews.build]  do  |f|  %>
+        评价：<div id="star-rating"></div>
         <%=  f.input  :content,  class: "form-control"  %>
         <%=  f.button  :submit,  disable_with: "Submiting...", class: "btn  btn-primary"  %>
       <% end  %>
@@ -43,6 +46,7 @@
       <%  else  %>
         <%  @reviews.each  do |review|  %>
           <%=  review.user.email  %>
+        <div class="star-rating"  data-score= <%= review.rating %> ></div>
           <%=  review.created_at.strftime("%Y/%m/%d, %I:%M  %P")  %><br>
           <%=  review.content  %>
           <hr>
@@ -51,3 +55,21 @@
 
   <%= link_to("back", movies_path)  %>
 </div>
+
+<!---reviews index(list)---->
+<script>
+    $('.star-rating').raty({
+      path: '/assets/',
+      readOnly: true,
+      score: function() {
+      return $(this).attr('data-score');
+    }
+  });
+</script>
+
+<!---reviews  new(form) ---->
+<script>
+    $('#star-rating').raty({
+      path: '/assets/',
+      scoreName: 'review[rating]' });
+</script>

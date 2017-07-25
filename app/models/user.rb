@@ -5,7 +5,7 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :trackable, :validatable
 
   has_many  :movies
-  has_many  :reviews
+  has_many  :reviews, dependent: :destroy   #reviews和user关联，user注销，reviews也会删除。
 
   def  admin?
     is_admin

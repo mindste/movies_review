@@ -1,4 +1,5 @@
 class Movie < ApplicationRecord
+  searchkick
   scope  :recent, ->  { order("created_at  DESC") }
 
   belongs_to  :user

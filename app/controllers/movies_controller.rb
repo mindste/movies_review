@@ -3,6 +3,14 @@ class MoviesController < ApplicationController
   before_action  :authenticate_user!, except: [:show, :index]
   before_action  :require_is_admin
 
+  def  search
+    if  params[:search].present?
+      @movies  =  Movie.search(params[:search])
+    else
+      @movies  =  Movie.all
+    end
+  end
+
   def   index
     @movies  =  Movie.all.recent
   end
@@ -31,6 +39,10 @@ class MoviesController < ApplicationController
     else
       @avg_review  =  @reviews.average(:rating).present? ?  @reviews.average(:rating).round(2)  : 0
     end
+
+    set_page_title  @movie.title
+    # set_page_description  "#{@movie.description}"   一般情况下使用
+    page_description  =  view_context.truncate(@movie.description, length: 100)  # description过长时使用
   end
 
   def  edit
@@ -48,6 +60,8 @@ class MoviesController < ApplicationController
     @movie.destroy
     redirect_to  movies_path
   end
+
+
 
   private
 

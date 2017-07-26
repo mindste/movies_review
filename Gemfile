@@ -34,11 +34,13 @@ gem 'jbuilder', '~> 2.5'
 
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
-gem  'bootstrap-sass'
-gem  'simple_form'
-gem  'devise'
-gem  'paperclip'
-gem  'searchkick'
+gem  'bootstrap-sass'  # bootstrap样式
+gem  'simple_form' # 简化表单
+gem  'devise'      # 登陆系统
+gem  'paperclip'   # 文件上传
+gem  'searchkick'  # 搜索功能
+gem  'seo_helper'  # 搜索引擎优化
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platform: :mri

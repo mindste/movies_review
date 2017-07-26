@@ -9,7 +9,10 @@ Rails.application.routes.draw do
   end
 
   resources  :movies  do
+    collection  do
+      get 'search'
+    end
     resources  :reviews
   end
-  
+
 end

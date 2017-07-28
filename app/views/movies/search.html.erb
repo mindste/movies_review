@@ -1,17 +1,18 @@
 <div  class="row">
-  <%  @movies.each  do  |movie| %>
+  <% if @movies.blank?%>
+  <h3>please   restart  search!</h3></h3>
+  <% else %>
+    <%  @movies.each  do  |movie| %>
 
-    <div  class="col-sm-3  col-md-2">
-      <div  class="thumbnail">
-      <!--<%=  link_to   movie_path(movie)  do  %>
-        <%= image_tag  movie.image.url(:thumb)  %>
-      <%  end  %>
-      -->
-        <%=  link_to  (image_tag  movie.image.url(:thumb),  class: 'image'), movie  %>
+      <div  class="col-sm-3  col-md-2">
+        <div  class="thumbnail">
+        <!--<%=  link_to   movie_path(movie)  do  %>
+          <%= image_tag  movie.image.url(:thumb)  %>
+        <%  end  %>
+        -->
+          <%= link_to  (image_tag  movie.image.url(:thumb),  class: 'image'), movie  %>
+        </div>
       </div>
-    </div>
-
-
+    <% end %>
   <% end %>
-
 </div>

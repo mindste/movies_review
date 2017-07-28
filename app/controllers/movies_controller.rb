@@ -5,10 +5,29 @@ class MoviesController < ApplicationController
 
   def  search
     if  params[:search].present?
-      @movies  =  Movie.search(params[:search])
+      @movies  =  Movie.search(params[:search], fields:["title", "description"])
     else
       @movies  =  Movie.all
     end
+  end
+   #  收藏电影
+  def  join
+    @movie  =  Movie.find(params[:id])
+    if  current_user.is_member_of?(@movie)
+      current_user.quit_collection!(@movie)
+    end
+    redirect_to  movie_path(@movie)
+    flash[notice]  =  "您已将#{@movie.title}加入收藏!"
+  end
+
+  #  取消收藏电影
+  def  quit
+    @movie  =  Movie.find(params[:id])
+    if !current_user.is_member_of?(@movie)
+      current_user.join_collection!(@movie)
+    end
+    redirect_to  movie_path(@movie)
+    flash[notice]  =  "已取消对#{@movie.title}的收藏!"
   end
 
   def   index

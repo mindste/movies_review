@@ -1,7 +1,4 @@
 <div  class="row">
-  <% if @movies.blank?%>
-  <h3>please   restart  search!</h3></h3>
-  <% else %>
     <%  @movies.each  do  |movie| %>
 
       <div  class="col-sm-3  col-md-2">
@@ -13,6 +10,5 @@
           <%= link_to  (image_tag  movie.image.url(:thumb),  class: 'image'), movie  %>
         </div>
       </div>
-    <% end %>
   <% end %>
 </div>

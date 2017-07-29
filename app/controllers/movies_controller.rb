@@ -1,33 +1,40 @@
 class MoviesController < ApplicationController
   before_action  :set_movie, only: [:show, :edit, :update, :destroy]
   before_action  :authenticate_user!, except: [:show, :index]
-  before_action  :require_is_admin
+
 
   def  search
     if  params[:search].present?
-      @movies  =  Movie.search(params[:search], fields:["title", "description"])
+      @movies  =  Movie.search(params[:search]).find(params[:id])
     else
       @movies  =  Movie.all
     end
   end
+
    #  收藏电影
   def  join
     @movie  =  Movie.find(params[:id])
-    if  current_user.is_member_of?(@movie)
-      current_user.quit_collection!(@movie)
+    if  !current_user.is_member_of?(@movie)
+      current_user.join_collection!(@movie)
+      flash[:notice]  =  "成功收藏电影, #{@movie.title}!"
+    else
+      flash[:warning]  =  "已经收藏了！"
     end
+
     redirect_to  movie_path(@movie)
-    flash[notice]  =  "您已将#{@movie.title}加入收藏!"
   end
 
   #  取消收藏电影
   def  quit
     @movie  =  Movie.find(params[:id])
-    if !current_user.is_member_of?(@movie)
-      current_user.join_collection!(@movie)
+    if current_user.is_member_of?(@movie)
+      current_user.quit_collection!(@movie)
+      flash[:notice]  =  "已取消收藏!"
+    else
+      flash[:warning]  =  "未收藏!"
     end
+
     redirect_to  movie_path(@movie)
-    flash[notice]  =  "已取消对#{@movie.title}的收藏!"
   end
 
   def   index
@@ -40,7 +47,6 @@ class MoviesController < ApplicationController
 
   def  create
     @movie  =  Movie.new(movie_params)
-    @movie.user  =  current_user
 
     if  @movie.save
       redirect_to  @movie

@@ -11,18 +11,20 @@ Rails.application.routes.draw do
 
   #  搜索及评论、收藏功能
   resources  :movies  do
-    collection  do
-      get 'search'
-    end
     member  do
-      post  :join
-      post  :quit
+      post  :join  #  加入收藏
+      post  :quit  #  取消收藏
     end
-    resources  :reviews
+
+    collection  do
+      get 'search'   # 搜索
+    end
+  
+    resources  :reviews  # 评论
   end
 
   namespace  :account  do
-    resources  :collections
+    resources  :collections   # 电影收藏
   end
 
 

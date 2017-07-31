@@ -38,7 +38,7 @@ class MoviesController < ApplicationController
   end
 
   def   index
-    @movies  =  Movie.all.recent
+    @movies  =  Movie.where(:is_hidden => false).recent
   end
 
   def  new
@@ -95,7 +95,7 @@ class MoviesController < ApplicationController
   end
 
   def  movie_params
-    params.require(:movie).permit(:title, :description, :movie_length, :director, :rating, :image)
+    params.require(:movie).permit(:title, :description, :movie_length, :director, :rating, :image, :is_hidden)
   end
 
 end

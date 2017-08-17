@@ -2,6 +2,9 @@ class Movie < ApplicationRecord
   searchkick
   scope  :recent, ->  { order("created_at  DESC") }
 
+  has_many  :tickets, :dependent  =>  :destroy,  :inverse_of  =>  :movie
+  accepts_nested_attributes_for  :tickets, :allow_destroy  =>  true,  :reject_if  =>  :all_blank
+
   # 收藏电影功能
   has_many  :collections  # 收藏电影
   has_many  :members, through: :collections, source: :user

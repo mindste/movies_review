@@ -4,22 +4,31 @@
 
   <%=  form_tag  bulk_update_admin_movies_path,  class: "form-inline"  do  %>
   <table  class="table">
-    <tr>
-        <th><%=  check_box_tag  "全选", "1", false, id: "toggle_all"  %></th>
-        <th>Movie.Name</th>
-        <th>Actions</th>
-    </tr>
+    <thead>
+      <tr>
+          <th><%=  check_box_tag  "全选", "1", false, id: "toggle_all"  %></th>
+          <th>Movie.Name</th>
+          <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody   class="sortable">
+      <%  @movies.each  do  |movie| %>
+      <tr  data-reorder-url="<%=   reorder_admin_movie_path(movie)  %>">
+          <td><%=  check_box_tag   "ids[]",  movie.id  %></td>
+          <td>
+            <span  class="sortable_icon">☰</span>
+            <%=  link_to  movie.title, admin_movie_path(movie)  %>
+          </td>
+          <td>
+            <%=  link_to  "置顶",  reorder_admin_movie_path(movie, :position  =>  :first),  :method  =>  :post,  :class  =>  "btn btn-default"  %>
+            <%=  link_to  "置底",  reorder_admin_movie_path(movie,  :position  =>  :last),  :method  =>  :post,  :class  =>  "btn  btn-default"  %>
+            <%=  link_to  "Edit",  edit_admin_movie_path(movie),  class: "btn btn-primary" %>
+            <%=  link_to  "Delete",  admin_movie_path(movie),  method: :delete, date: { confir: "Are  you  sure?" },  class: "btn  btn-danger" %>
+          </td>
+      <% end %>
+      </tr>
+    </tbody>
 
-    <%  @movies.each  do  |movie| %>
-    <tr>
-        <td><%=  check_box_tag   "ids[]",  movie.id  %></td>
-        <td><%=  link_to  movie.title, admin_movie_path(movie)  %></td>
-        <td>
-          <%=  link_to  "Edit",  edit_admin_movie_path(movie),  class: "btn btn-primary" %>
-          <%=  link_to  "Delete",  admin_movie_path(movie),  method: :delete, date: { confir: "Are  you  sure?" },  class: "btn  btn-danger" %>
-        </td>
-    <% end %>
-    </tr>
   </table>
 
     <p>
@@ -38,4 +47,25 @@
       $("input[name='ids[]']").prop("checked", false)
       }
   })
+
+  $(".sortable").sortable({
+    axis: 'y',      //  限制只能上下拖拉
+    items: 'tr',    //  拖动整个tr
+    cursor: 'move', //  变更拖拉时的 icon
+    handle:  ".sortable_icon",  // 限制只有点 ☰ 才能开始拖拉，当去除这行代码时，整个tr都可以进行拖拉
+
+    stop:  function(e, ui){    //  当拖拉结束时，会调用这个方法
+      ui.item.children('td').effect('highlight', {}, 1000)
+    },
+    update: function(e, ui){    //当拖拉结束时并且 DOM 上的位置变更时，会调用这个方法
+      reorder_ul  =  ui.item.data('reorder-url')
+      position  =  ui.item.index()   //  取得顺序
+      $ajax({
+        type: 'POST',
+        url: reorder_url,
+        dataType: 'json',
+        data: { position:  position}
+      })
+    }
+  });
 </script>

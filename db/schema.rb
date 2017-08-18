@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170818033923) do
+ActiveRecord::Schema.define(version: 20170818152040) do
 
   create_table "collections", force: :cascade do |t|
     t.integer  "movie_id"
@@ -41,6 +41,8 @@ ActiveRecord::Schema.define(version: 20170818033923) do
     t.datetime "image_updated_at"
     t.boolean  "is_hidden",          default: true
     t.string   "status",             default: "hidden"
+    t.integer  "row_order"
+    t.index ["row_order"], name: "index_movies_on_row_order"
     t.index ["user_id"], name: "index_movies_on_user_id"
   end
 

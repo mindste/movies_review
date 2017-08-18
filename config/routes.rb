@@ -5,10 +5,13 @@ Rails.application.routes.draw do
   root  "movies#index"
 
   get  "/faq"  =>  "pages#faq"
-  
+
   # 管理员帐号下的电影管理
   namespace  :admin  do
     resources :movies  do
+      member  do
+        post  "reorder"
+      end
       collection  do
         post  "bulk_update"
       end

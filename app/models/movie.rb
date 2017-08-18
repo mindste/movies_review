@@ -1,8 +1,9 @@
 class Movie < ApplicationRecord
-
+  include  RankedModel
+  ranks  :row_order
   STATUS  =  ["hidden", "public", "draft"]
   validates_inclusion_of  :status, :in  =>  STATUS
-  
+
   searchkick
   scope  :recent, ->  { order("created_at  DESC") }
 

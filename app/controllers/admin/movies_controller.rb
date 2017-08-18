@@ -2,6 +2,19 @@ class Admin::MoviesController < ApplicationController
   before_action  :set_movie, only: [:show, :edit, :update, :destroy]
   before_action  :authenticate_user!, except: [:show, :index]
 
+
+  def  reorder
+    @movie  =  Movie.find(params[:id])
+    @movie.row_order_position  =  params[:position]
+    @movie.save!
+
+    respond_to  do  |format|
+      format.html  {  redirect_to  admin_movies_path}
+      format.json  {  render  :json  =>  {  :message  =>  "ok" } }
+    end
+
+  end
+
   def  bulk_update
     total  =  0
     Array(params[:ids]).each  do  |movie_id|
@@ -23,7 +36,7 @@ class Admin::MoviesController < ApplicationController
 
 
   def   index
-    @movies  =  Movie.all.recent
+    @movies  =  Movie.all.rank(:row_order)
   end
 
   def  new

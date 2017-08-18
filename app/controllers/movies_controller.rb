@@ -38,7 +38,7 @@ class MoviesController < ApplicationController
   end
 
   def   index
-    @movies  =  Movie.where(:is_hidden => false).recent
+    @movies  =  Movie.where(:is_hidden => false).rank(:row_order)
   end
 
   def  new

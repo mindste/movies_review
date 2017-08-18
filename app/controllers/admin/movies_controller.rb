@@ -2,6 +2,26 @@ class Admin::MoviesController < ApplicationController
   before_action  :set_movie, only: [:show, :edit, :update, :destroy]
   before_action  :authenticate_user!, except: [:show, :index]
 
+  def  bulk_update
+    total  =  0
+    Array(params[:ids]).each  do  |movie_id|
+      movie  =  Movie.find(movie_id)
+      if   params[:commit]  ==  I18n.t(:bulk_update)
+        movie.status  =  params[:movie_status]
+        if  movie.save
+          total  +=  1
+        end
+      elsif  params[:commit]  ==  I18n.t(:bulk_delete)
+        movie.destroy
+        total  +=  1
+      end
+    end
+
+    flash[:alert]  =  "成功完成 #{total} 笔"
+    redirect_to  admin_movies_path
+  end
+
+
   def   index
     @movies  =  Movie.all.recent
   end

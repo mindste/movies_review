@@ -1,20 +1,41 @@
-<div  class="pull-right">
-  <%=  link_to("New  movie", new_admin_movie_path, class: "btn  btn-primary")%>
-</div>
+<p  class="text-right">
+  <%=  link_to("New  movie", new_admin_movie_path, class: "btn  btn-primary")  %>
+</p>
 
-<div  class="row">
-  <%  @movies.each  do  |movie| %>
-    <div  class="col-sm-6  col-md-3">
-      <div  class="thumbnail">
-      <!--<%=  link_to   movie_path(movie)  do  %>
-        <%= image_tag  movie.image.url(:thumb)  %>
-      <%  end  %>
-      -->
-        <%=  link_to   (image_tag  movie.image.url(:thumb),  class: 'image'), admin_movie_path(movie)  %>
-      </div>
-    </div>
+  <%=  form_tag  bulk_update_admin_movies_path,  class: "form-inline"  do  %>
+  <table  class="table">
+    <tr>
+        <th><%=  check_box_tag  "全选", "1", false, id: "toggle_all"  %></th>
+        <th>Movie.Name</th>
+        <th>Actions</th>
+    </tr>
 
+    <%  @movies.each  do  |movie| %>
+    <tr>
+        <td><%=  check_box_tag   "ids[]",  movie.id  %></td>
+        <td><%=  link_to  movie.title, admin_movie_path(movie)  %></td>
+        <td>
+          <%=  link_to  "Edit",  edit_admin_movie_path(movie),  class: "btn btn-primary" %>
+          <%=  link_to  "Delete",  admin_movie_path(movie),  method: :delete, date: { confir: "Are  you  sure?" },  class: "btn  btn-danger" %>
+        </td>
+    <% end %>
+    </tr>
+  </table>
 
-  <% end %>
+    <p>
+      <%=  select_tag  :movie_status, options_for_select( Movie::STATUS.map{  |s|  [t(s, :scope  =>  "movie.status"), s] }), class: "form-control"  %>
+      <%=  submit_tag  t(:bulk_update),  class: "btn  btn-primary"  %>
+      <%=  submit_tag  t(:bulk_delete),  class: "btn  btn-danger", data: { confirm: "Are  you  sure?" }  %>
+    </p>
+  <%  end %>
 
-</div>
+<script>
+  $("#toggle_all").click(function(){
+    if  (  $(this).prop("checked") ) {
+      $("input[name='ids[]']").prop("checked", true)
+    }
+    else {
+      $("input[name='ids[]']").prop("checked", false)
+      }
+  })
+</script>

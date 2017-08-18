@@ -1,4 +1,8 @@
 class Movie < ApplicationRecord
+
+  STATUS  =  ["hidden", "public", "draft"]
+  validates_inclusion_of  :status, :in  =>  STATUS
+  
   searchkick
   scope  :recent, ->  { order("created_at  DESC") }
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170817075348) do
+ActiveRecord::Schema.define(version: 20170818033923) do
 
   create_table "collections", force: :cascade do |t|
     t.integer  "movie_id"
@@ -32,14 +32,15 @@ ActiveRecord::Schema.define(version: 20170817075348) do
     t.string   "movie_length"
     t.string   "director"
     t.string   "rating"
-    t.datetime "created_at",                        null: false
-    t.datetime "updated_at",                        null: false
+    t.datetime "created_at",                            null: false
+    t.datetime "updated_at",                            null: false
     t.integer  "user_id"
     t.string   "image_file_name"
     t.string   "image_content_type"
     t.integer  "image_file_size"
     t.datetime "image_updated_at"
     t.boolean  "is_hidden",          default: true
+    t.string   "status",             default: "hidden"
     t.index ["user_id"], name: "index_movies_on_user_id"
   end
 

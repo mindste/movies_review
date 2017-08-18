@@ -21,3 +21,8 @@
 
 en:
   hello: "Hello world"
+  bulk_update:  Bulk_Update
+  bulk_delete:  Bulk_Delete
+  hidden:  Hidden
+  public:  Public
+  draft:   Draft

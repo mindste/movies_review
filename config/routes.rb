@@ -4,9 +4,15 @@ Rails.application.routes.draw do
   # 默认路径
   root  "movies#index"
 
+  get  "/faq"  =>  "pages#faq"
+  
   # 管理员帐号下的电影管理
   namespace  :admin  do
-    resources :movies
+    resources :movies  do
+      collection  do
+        post  "bulk_update"
+      end
+    end
   end
 
   #  搜索及评论、收藏功能
@@ -19,7 +25,7 @@ Rails.application.routes.draw do
     collection  do
       get 'search'   # 搜索
     end
-  
+
     resources  :reviews  # 评论
   end
 

@@ -9,9 +9,12 @@ Rails.application.routes.draw do
   # 管理员帐号下的电影管理
   namespace  :admin  do
     resources :movies  do
+      resources  :reviews  # 评论
+      
       member  do
         post  "reorder"
       end
+
       collection  do
         post  "bulk_update"
       end

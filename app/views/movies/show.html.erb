@@ -34,7 +34,8 @@
       <hr>
       <%= simple_form_for  [@movie, @movie.reviews.build]  do  |f|  %>
         评价：<div id="star-rating"></div>
-        <%=  f.input  :content,  class: "form-control"  %>
+        <hr>
+        <%=  f.input  :content,  class: "form-control" %>
         <%=  f.button  :submit,  disable_with: "Submiting...", class: "btn  btn-primary"  %>
       <% end  %>
 

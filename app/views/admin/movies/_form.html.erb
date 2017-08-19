@@ -1,10 +1,18 @@
+<%  if  @movie.errors.any?  %>
+  <ul>
+    <%  @movie.errors.full_messages.each  do  |error|  %>
+      <li><%=  error  %></li>
+    <%  end  %>
+  </ul>
+<%  end  %>
+
 <%=  simple_form_for  [:admin, @movie]  do  |f|  %>
   <div class="form-group">
-    <%=  f.input :title, input_html: { class: "form-control" } %>
+    <%=  f.input :title, input_html: { class: "form-control" }, :autofocus  =>  true %>
   </div>
 
   <div class="form-group">
-    <%=  f.input :description, input_html: { class: "form-control" } %>
+    <%=  f.input :description, input_html: { class: "form-control" }, as: :ckeditor  %>
   </div>
 
   <div class="form-group">
@@ -16,7 +24,7 @@
   </div>
 
   <div class="form-group">
-    <%=  f.input :rating, input_html: { class: "form-control" } %>
+    <%=  f.input :rating, input_html: { class: "form-control" }  %>
   </div>
 
   <div  class="form-group">
@@ -32,17 +40,23 @@
       <legend>Ticket</legend>
       <div class="form-group">
         <%=  ff.label  :name  %>
-        <%=  ff.text_field  :name,  :class  =>  "form-control"  %>
+        <%=  ff.text_field  :name,  :class  =>  "form-control", :required  =>  true  %>
+
+        <div class="help-block  with-errors"></div>
       </div>
 
       <div class="form-group">
         <%=  ff.label  :description  %>
-        <%=  ff.text_area  :description,  :class  =>  "form-control"  %>
+        <%=  ff.text_area  :description,  :class  =>  "form-control",  :required  =>  true  %>
+
+        <div class="help-block  with-errors"></div>
       </div>
 
       <div class="form-group">
         <%=  ff.label  :price  %>
-        <%=  ff.number_field  :price,  :class  =>  "form-control"  %>
+        <%=  ff.number_field  :price,  :class  =>  "form-control", :required  =>  true  %>
+
+        <div class="help-block  with-errors"></div>
       </div>
     </fieldset>
     <%=  ff.remove_nested_fields_link  "移除这个票据",  :class  =>  "btn  btn-danger"  %>
@@ -55,3 +69,7 @@
   <%=  f.button  :submit,  class: "btn  btn-primary" %>
 
 <% end  %>
+
+<script>
+  $("form").validator();
+</script>

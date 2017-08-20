@@ -1,0 +1,50 @@
+<h1><%= @movie.title %> / Buyers</h1>
+
+<p class="text-right">
+<%= link_to "New Buyer", new_admin_movie_buyer_path(@movie), :class => "btn btn-primary" %>
+</p>
+
+<div class="submenu">
+    <div class="btn-group">
+      <%= link_to "全部 (#{@movie.buyers.size})", admin_movie_buyers_path(  buyer_filters(:status =>   nil)), :class => "btn btn-success btn-group #{(params[:status].blank?) ? "active" : ""}" %>
+      <% Buyer::STATUS.each do |s| %>
+        <%= link_to t(s, :scope => "buyer.status")  + " (#{@movie.buyers.by_status(s).size})",   admin_movie_buyers_path(buyer_filters(:status => s)), :class => "btn btn-success btn-group #{(  params[:status] == s) ? "active" : ""}" %>
+        <% end %>
+    </div>
+
+    <div class="btn-group">
+      <%= link_to "全部 (#{@movie.buyers.size})",  admin_movie_buyers_path(buyer_filters(:ticket_id =>   nil)), :class => "btn btn-default btn-group #{(params[:ticket_id].blank?) ? "active" : ""}" %>
+      <% @movie.tickets.each do |t| %>
+        <%= link_to t.name + " (#{@movie.buyers.by_ticket(t).size})", admin_movie_buyers_path(  buyer_filters(:ticket_id => t.id)), :class => "btn btn-default btn-group #{(params[:ticket_id].to_i == t.id)   ? "active" : ""}" %>
+      <% end %>
+    </div>
+</div>
+
+<table class="table">
+  <tr>
+    <th>ID</th>
+    <th>Ticket</th>
+    <th>Name</th>
+    <th>Status</th>
+    <th>E-mail</th>
+    <th>建立时间</th>
+    <th>Actions</th>
+  </tr>
+  <% @buyers.each do |buyer| %>
+    <tr>
+      <td><%= buyer.id %></td>
+      <td><%= buyer.ticket.name %></td>
+      <td><%= buyer.name %></td>
+      <td><%= t( buyer.status, :scope => "buyer.status") %></td>
+      <td><%= buyer.email %></td>
+      <td><%= buyer.created_at %></td>
+      <td>
+        <%= link_to "Edit", edit_admin_movie_buyer_path(@movie, buyer), :class => "btn btn-default" %>
+        <%= link_to "Delete", admin_movie_buyer_path(@movie, buyer), :method => "delete", :data => { :confirm => "Are you sure?" }, :class => "btn btn-danger" %>
+    </tr>
+  <% end %>
+</table>
+
+<p class="text-center">
+  <%=  paginate  @buyers  %>
+</p>

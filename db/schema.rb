@@ -10,7 +10,25 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170818152040) do
+ActiveRecord::Schema.define(version: 20170820112415) do
+
+  create_table "buyers", force: :cascade do |t|
+    t.string   "status",     default: "pending"
+    t.string   "uuid"
+    t.string   "name"
+    t.string   "email"
+    t.string   "cellphone"
+    t.integer  "movie_id"
+    t.integer  "user_id"
+    t.integer  "ticket_id"
+    t.text     "bio"
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
+    t.index ["movie_id"], name: "index_buyers_on_movie_id"
+    t.index ["ticket_id"], name: "index_buyers_on_ticket_id"
+    t.index ["user_id"], name: "index_buyers_on_user_id"
+    t.index ["uuid"], name: "index_buyers_on_uuid", unique: true
+  end
 
   create_table "collections", force: :cascade do |t|
     t.integer  "movie_id"
@@ -42,6 +60,8 @@ ActiveRecord::Schema.define(version: 20170818152040) do
     t.boolean  "is_hidden",          default: true
     t.string   "status",             default: "hidden"
     t.integer  "row_order"
+    t.string   "friendly_id"
+    t.index ["friendly_id"], name: "index_movies_on_friendly_id", unique: true
     t.index ["row_order"], name: "index_movies_on_row_order"
     t.index ["user_id"], name: "index_movies_on_user_id"
   end

@@ -42,9 +42,12 @@ gem  'searchkick'  # 搜索功能
 gem  'seo_helper'  # 搜索引擎优化
 gem  'nested_form_fields'  #  嵌套表单无限添加
 gem  'rails-i18n'
+gem  'devise-i18n'
 gem  'ranked-model'
 gem  'jquery-ui-rails'
 gem  'ckeditor'
+gem  'faker'
+gem 'kaminari'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console

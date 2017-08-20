@@ -9,8 +9,9 @@ Rails.application.routes.draw do
   # 管理员帐号下的电影管理
   namespace  :admin  do
     resources :movies  do
+      resources  :buyers,  :controller  =>  "movie_buyers"
       resources  :reviews  # 评论
-      
+
       member  do
         post  "reorder"
       end

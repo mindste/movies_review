@@ -22,6 +22,7 @@
           <td>
             <%=  link_to  "置顶",  reorder_admin_movie_path(movie, :position  =>  :first),  :method  =>  :post,  :class  =>  "btn btn-default"  %>
             <%=  link_to  "置底",  reorder_admin_movie_path(movie,  :position  =>  :last),  :method  =>  :post,  :class  =>  "btn  btn-default"  %>
+            <%=  link_to  "Buyers",  admin_movie_buyers_path(movie), class: "btn btn-default"  %>
             <%=  link_to  "Edit",  edit_admin_movie_path(movie),  class: "btn btn-primary" %>
             <%=  link_to  "Delete",  admin_movie_path(movie),  method: :delete, date: { confir: "Are  you  sure?" },  class: "btn  btn-danger" %>
           </td>

@@ -4,6 +4,9 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
+
+  has_many  :buyers
+
   #  评论功能
   has_many  :movies
   has_many  :reviews, dependent: :destroy   #reviews和user关联，user注销，reviews也会删除。

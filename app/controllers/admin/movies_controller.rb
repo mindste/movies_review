@@ -86,11 +86,12 @@ class Admin::MoviesController < ApplicationController
   private
 
   def  set_movie
-    @movie  =  Movie.find(params[:id])
+    @movie  =  Movie.find_by_friendly_id!(params[:id])
   end
 
   def  movie_params
     params.require(:movie).permit(:title, :description, :movie_length, :director, :rating, :image, :is_hidden,
     :tickets_attributes  =>  [:id,  :name,  :description,  :price, :_destroy] )
   end
+  
 end

@@ -1,3 +1,10 @@
 <h1>编辑电影</h1>
-<%=  render "form" %>
-<%=  link_to("返回", admin_movies_path) %>
+<%=  simple_form_for  [:admin, @movie]  do  |f|  %>
+  <%=  render  :partial  =>  "form",  :locals  =>  { :f  =>  f} %>
+
+  <div class="form-group">
+    <%=  f.submit  "Submit",  class: "btn  btn-primary" %>
+    <%=  link_to("Cancel", admin_movies_path) %>
+  </div>
+
+<%  end  %>

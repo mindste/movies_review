@@ -1,4 +1,8 @@
 class Movie < ApplicationRecord
+  has_many  :buyers,  :dependent  =>  :destroy
+
+  before_validation   :generate_friendly_id,  :on  =>  :create
+
   include  RankedModel
   ranks  :row_order
   STATUS  =  ["hidden", "public", "draft"]
@@ -22,11 +26,17 @@ class Movie < ApplicationRecord
 
   #  验证title, description不得为空
   validates :title, presence: true
-  validates :description, presence: true
 
   #  paperclip  图片上传
   has_attached_file :image, styles: { medium: "400x600>", thumb: "200x200>" }, default_url: "/images/:style/missing.png"
   validates_attachment_content_type :image, content_type: /\Aimage\/.*\z/
 
+  def   to_param
+    self.friendly_id
+  end
+
+  def  generate_friendly_id
+    self.friendly_id  ||=   SecureRandom.uuid
+  end
 
 end

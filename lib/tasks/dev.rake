@@ -13,9 +13,9 @@ namespace :dev do
     end
 
      movie = Movie.create!( :status => "public",  :title => "全栈营 Meetup", :friendly_id => "fullstack-meetup", :user_id => users.sample.id)
-     t1 = movie.tickets.create!( :name => "Guest", :price => 0)
-     t2 = movie.tickets.create!( :name => "VIP 第一期", :price => 199)
-     t3 = movie.tickets.create!( :name => "VIP 第二期", :price => 199)
+     t1 = movie.tickets.create!( :name => "一般用户", :price => 50)
+     t2 = movie.tickets.create!( :name => "普通VIP", :price => 80)
+     t3 = movie.tickets.create!( :name => "高级VIP", :price => 120)
 
 
      1000.times do |i|

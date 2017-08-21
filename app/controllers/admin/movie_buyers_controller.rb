@@ -4,7 +4,29 @@ class Admin::MovieBuyersController < ApplicationController
   before_action  :find_movie
 
   def  index
-    @buyers  =  @movie.buyers.includes(:ticket).order("id  DESC").page(params[:page]).per(10)
+    @q  =  @movie.buyers.ransack(params[:q])
+
+    @buyers  =  @q.result.includes(:ticket).order("id  DESC").page(params[:page])
+
+    if   params[:buyer_id].present?
+      @buyers  =  @buyers.where(  :id  =>  params[:buyer_id].split(",") )
+    end
+
+    if   params[:start_on].present?
+      @buyers  =  @buyers.where( "created_at  >=  ?",  Date.parse(params[:start_on]).beginning_of_day  )
+    end
+
+    if   params[:end_on].present?
+      @buyers   =  @buyers.where( "created_at  <=  ?",  Date.parse(params[:end_on]).end_of_day )
+    end
+
+    if  Array(params[:statuses]).any?
+      @buyers  =  @buyers.by_status(params[:statuses])
+    end
+
+    if  Array(params[:ticket_ids]).any?
+      @buyers  =  @buyers.by_ticket(params[:ticket_ids])
+    end
 
     if  params[:status].present?  &&  Buyer::STATUS.include?(params[:status])
       @buyers  =  @buyers.by_status(params[:status])

@@ -4,21 +4,56 @@
 <%= link_to "New Buyer", new_admin_movie_buyer_path(@movie), :class => "btn btn-primary" %>
 </p>
 
-<div class="submenu">
-    <div class="btn-group">
-      <%= link_to "全部 (#{@movie.buyers.size})", admin_movie_buyers_path(  buyer_filters(:status =>   nil)), :class => "btn btn-success btn-group #{(params[:status].blank?) ? "active" : ""}" %>
-      <% Buyer::STATUS.each do |s| %>
-        <%= link_to t(s, :scope => "buyer.status")  + " (#{@movie.buyers.by_status(s).size})",   admin_movie_buyers_path(buyer_filters(:status => s)), :class => "btn btn-success btn-group #{(  params[:status] == s) ? "active" : ""}" %>
-        <% end %>
-    </div>
+<%  if  false  %>
+  <div class="submenu">
+      <div class="btn-group">
+        <%= link_to "全部 (#{@movie.buyers.size})", admin_movie_buyers_path(  buyer_filters(:status =>   nil)), :class => "btn btn-success btn-group #{(params[:status].blank?) ? "active" : ""}" %>
+        <% Buyer::STATUS.each do |s| %>
+          <%= link_to t(s, :scope => "buyer.status")  + " (#{@movie.buyers.by_status(s).size})",   admin_movie_buyers_path(buyer_filters(:status => s)), :class => "btn btn-success btn-group #{(  params[:status] == s) ? "active" : ""}" %>
+          <% end %>
+      </div>
 
-    <div class="btn-group">
-      <%= link_to "全部 (#{@movie.buyers.size})",  admin_movie_buyers_path(buyer_filters(:ticket_id =>   nil)), :class => "btn btn-default btn-group #{(params[:ticket_id].blank?) ? "active" : ""}" %>
-      <% @movie.tickets.each do |t| %>
-        <%= link_to t.name + " (#{@movie.buyers.by_ticket(t).size})", admin_movie_buyers_path(  buyer_filters(:ticket_id => t.id)), :class => "btn btn-default btn-group #{(params[:ticket_id].to_i == t.id)   ? "active" : ""}" %>
-      <% end %>
-    </div>
-</div>
+      <div class="btn-group">
+        <%= link_to "全部 (#{@movie.buyers.size})",  admin_movie_buyers_path(buyer_filters(:ticket_id =>   nil)), :class => "btn btn-default btn-group #{(params[:ticket_id].blank?) ? "active" : ""}" %>
+        <% @movie.tickets.each do |t| %>
+          <%= link_to t.name + " (#{@movie.buyers.by_ticket(t).size})", admin_movie_buyers_path(  buyer_filters(:ticket_id => t.id)), :class => "btn btn-default btn-group #{(params[:ticket_id].to_i == t.id)   ? "active" : ""}" %>
+        <% end %>
+      </div>
+  </div>
+<%  end  %>
+
+<%=  search_form_for  @q,  :url  =>   admin_movie_buyers_path(@movie)   do   |f|   %>
+  <p><%=  f.search_field  :name_cont,  :placeholder  =>  "姓名",  :class  =>  "form-control"  %></p>
+  <p><%=  f.search_field  :email_cont,  :placeholder  =>  "E-mail", :class  =>  "form-control"  %></p>
+
+  <p>
+    <%=  text_field_tag  :buyer_id,  params[:buyer_id],  :placeholder  =>  "报名编号，可用,号区隔",  :class  =>  "form-control"  %>
+  </p>
+
+  <P>
+    <%  Buyer::STATUS.each  do  |s|  %>
+      <label>
+        <%=  check_box_tag  "statuses[]", s, Array(params[:statuses]).include?(s)  %>
+        <%=  t(s, :scope  =>  +  "buyer.status")  %>( <%=  @movie.buyers.by_status(s).size  %>)
+      </label>
+    <%  end  %>
+  </P>
+  <p>
+    <%  @movie.tickets.each  do  |t|  %>
+      <label>
+        <%=  check_box_tag  "ticket_ids[]", t.id,  Array(params[:ticket_ids]).include?(t.id.to_s)  %>
+        <%=  t.name  %>(<%=  + @movie.buyers.where( :ticket_id  =>  t.id ).size  %>)
+      </label>
+    <%  end  %>
+  </p>
+  <p>
+    报名日期：<%=  date_field_tag   :start_on,  params[:start_on]  %>~<%=  date_field_tag  :end_on,  params[:end_on]   %>
+  </p>
+
+  <p  class="text-right">
+    <%=  submit_tag  "送出筛选",  :class  =>  "btn  btn-primary"  %>
+  </p>
+<%  end  %>
 
 <table class="table">
   <tr>

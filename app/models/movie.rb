@@ -1,4 +1,7 @@
 class Movie < ApplicationRecord
+  scope  :only_public,  -> {  where( :status  =>  "public" ) }
+  scope  :only_available,  ->  {  where( :status  =>  ["public", "private"] ) }
+  
   has_many  :buyers,  :dependent  =>  :destroy
 
   before_validation   :generate_friendly_id,  :on  =>  :create

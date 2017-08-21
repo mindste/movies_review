@@ -38,7 +38,7 @@ class MoviesController < ApplicationController
   end
 
   def   index
-    @movies  =  Movie.where(:is_hidden => false).rank(:row_order)
+    @movies  =  Movie.where(:is_hidden => false).only_public.rank(:row_order)
   end
 
   def  new
@@ -91,7 +91,7 @@ class MoviesController < ApplicationController
   private
 
   def  set_movie
-    @movie  =  Movie.find_by_friendly_id!(params[:id])
+    @movie  =  Movie.only_available.find_by_friendly_id!(params[:id])  # 如果活动是 draft 的话，经过 only_available scope 就会找不到，这就是我们的目的
   end
 
   def  movie_params

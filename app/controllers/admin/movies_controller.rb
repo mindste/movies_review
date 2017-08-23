@@ -42,6 +42,7 @@ class Admin::MoviesController < ApplicationController
   def  new
     @movie  =  Movie.new
     @movie.tickets.build
+    @movie.attachments.build
   end
 
   def  create
@@ -68,6 +69,7 @@ class Admin::MoviesController < ApplicationController
 
   def  edit
     @movie.tickets.build  if   @movie.tickets.empty?
+    @movie.attachments.build  if   @movie.attachments.empty?
   end
 
   def  update
@@ -91,7 +93,7 @@ class Admin::MoviesController < ApplicationController
 
   def  movie_params
     params.require(:movie).permit(:title, :description, :movie_length, :director, :rating, :image, :is_hidden,
-    :tickets_attributes  =>  [:id,  :name,  :description,  :price, :_destroy] )
+                                  :tickets_attributes  =>  [:id,  :name,  :description,  :price, :_destroy], :attachments_attributes  =>  [:id,  :attachment, :description, :_destroy] )
   end
-  
+
 end

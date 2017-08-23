@@ -27,6 +27,12 @@
 
 <br>
 <div  class="col-md-9">
+  <ul>
+    <%  @movie.attachments.each  do  |a|  %>
+      <li><%=  link_to  a.description,  a.attachment.url,  :target  =>  "_blank"  %></li>
+    <%  end  %>
+  </ul>
+  
   剧情简介：
       <p><%= render_movie_description(@movie)  %></p>
 

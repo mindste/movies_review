@@ -1,19 +1,32 @@
 class Movie < ApplicationRecord
+
+  #  建立 movie 和 attachment 之间的关系
+  has_many  :attachments,  :class_name  =>  "MovieAttachment", :dependent  =>  :destroy
+  accepts_nested_attributes_for  :attachments,  :allow_destroy  =>  true,  :reject_if  =>  :all_blank
+
+  #  只有  public 状态下可以在前台显示
   scope  :only_public,  -> {  where( :status  =>  "public" ) }
   scope  :only_available,  ->  {  where( :status  =>  ["public", "private"] ) }
-  
+
+  #  建立  movie  和  buyer 之间的关系
   has_many  :buyers,  :dependent  =>  :destroy
 
+  #  验证之前生成乱码
   before_validation   :generate_friendly_id,  :on  =>  :create
 
+  #  调整电影的顺序
   include  RankedModel
   ranks  :row_order
+
+  #  三种状态
   STATUS  =  ["hidden", "public", "draft"]
   validates_inclusion_of  :status, :in  =>  STATUS
 
+  #  大数据级的搜索
   searchkick
   scope  :recent, ->  { order("created_at  DESC") }
 
+  # 建立 movie 和 attachment 之间的关系
   has_many  :tickets, :dependent  =>  :destroy,  :inverse_of  =>  :movie
   accepts_nested_attributes_for  :tickets, :allow_destroy  =>  true,  :reject_if  =>  :all_blank
 
@@ -38,6 +51,7 @@ class Movie < ApplicationRecord
     self.friendly_id
   end
 
+  #  生成随机乱码
   def  generate_friendly_id
     self.friendly_id  ||=   SecureRandom.uuid
   end

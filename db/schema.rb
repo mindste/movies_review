@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170820112415) do
+ActiveRecord::Schema.define(version: 20170823033147) do
 
   create_table "buyers", force: :cascade do |t|
     t.string   "status",     default: "pending"
@@ -42,6 +42,15 @@ ActiveRecord::Schema.define(version: 20170820112415) do
     t.integer  "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "movie_attachments", force: :cascade do |t|
+    t.integer  "movie_id"
+    t.string   "attachment"
+    t.string   "description"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+    t.index ["movie_id"], name: "index_movie_attachments_on_movie_id"
   end
 
   create_table "movies", force: :cascade do |t|

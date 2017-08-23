@@ -21,3 +21,4 @@
 .byebug_history
 public/system
 config/database.yml
+public/uploads/*
